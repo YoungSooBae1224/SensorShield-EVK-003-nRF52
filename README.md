@@ -29,7 +29,7 @@ Change VDD circuit on SensorShield-EVK-003
     Cut SB_P26 and SB_P27.
 
 
-- Ohter
+- Other
 1. Download SDK15.3 in nordicsemi.com 
 
     After updating all sensors, I plan to update in the next version.
