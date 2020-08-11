@@ -51,6 +51,9 @@ Change VDD circuit on SensorShield-EVK-003
         Android : Download nRFToolbox in google play store or custom nRFToolbox in git
 
 @BM1383AGLV : Air Press sensor - connect press application in custom nRFToolbox. If want to connect iOS, you can test HRS in nRFToolbox.
+
 @BH1790GLC : Heart Rate sensor - connect HRS application in anything nRFToolbox.
+
 @BD1020HFV : Temperature sensor - connect HTS application in anything nRFToolbox.
+
 @BD7411G : Hall sensor - need not application. When the magnet is brought close to the sensor, LED4 turn on or off.
