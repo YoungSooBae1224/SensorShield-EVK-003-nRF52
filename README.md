@@ -7,11 +7,13 @@
 3. BD1020HFV
 4. BD7411G
 
+
 - Bluetooth Low Energy Chip
     nRF52832
 Test Board
 1. nRF52DK
 2. Lapis - MK71521EK1A
+
 
 - Change circuit
 1. nRF52DK
@@ -26,7 +28,8 @@ Change VDD circuit on SensorShield-EVK-003
 
     Cut SB_P26 and SB_P27.
 
-- Ohter
+
+- Other
 1. Download SDK15.3 in nordicsemi.com 
 
     After updating all sensors, I plan to update in the next version.
@@ -40,3 +43,17 @@ Change VDD circuit on SensorShield-EVK-003
 3. Lapis - MK71521EK1A
 
     Please perpare nRF52DK(Need SWD cable for connection) or J-Link debugger. MK71521EK1A is no built-in debugger.
+
+4. Demo
+
+        iOS : Download nRFToolbox in Appstore 
+
+        Android : Download nRFToolbox in google play store or custom nRFToolbox in git
+
+@BM1383AGLV : Air Press sensor - connect press application in custom nRFToolbox. If want to connect iOS, you can test HRS in nRFToolbox.
+
+@BH1790GLC : Heart Rate sensor - connect HRS application in anything nRFToolbox.
+
+@BD1020HFV : Temperature sensor - connect HTS application in anything nRFToolbox.
+
+@BD7411G : Hall sensor - need not application. When the magnet is brought close to the sensor, LED4 turn on or off.
