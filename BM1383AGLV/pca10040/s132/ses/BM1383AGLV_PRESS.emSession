@@ -65,8 +65,8 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="651" useTextEdit="1" useBinaryEdit="0" left="0" path="../../../main.c" selected="1" top="651" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="16" y="250" useTextEdit="1" useBinaryEdit="0" left="0" path="../../../main.c" selected="1" top="250" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="41" useTextEdit="1" useBinaryEdit="0" left="0" path="../../../../../../integration/nrfx/legacy/nrf_drv_clock.c" selected="0" top="28" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="BM1383AGLV_PRESS" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
+ <ARMCrossStudioWindow activeProject="BM1383AGLV_PRESS" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Release" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3199"/>
 </session>
