@@ -2,10 +2,14 @@
 
 - Applicable Part Number: SensorShield-EVK-003
     ROHM Sensor Shield include sensor
-1. BM1383AGLV
-2. BH1790GLC with I2C
-3. BD1020HFV
-4. BD7411G
+1. KX224-I2C
+2. BM1383AGLV-I2C
+3. BM1422AGMV-I2C
+4. RPR0521RS-I2C
+5. BH1749NUC-I2C
+6. BH1790GLC-I2C
+7. BD7411G
+8. BD1020HFV
 
 
 - Bluetooth Low Energy Chip
@@ -50,7 +54,15 @@ Change VDD circuit on SensorShield-EVK-003
 
         Android : Download nRFToolbox in google play store or custom nRFToolbox in git
 
+@KX224-I2C : Accelerometer - connect accel application in custom nRFToolbox.
+
 @BM1383AGLV : Air Press sensor - connect press application in custom nRFToolbox. If want to connect iOS, you can test HRS in nRFToolbox.
+
+@BM1422AGMV : Magnetometer - connect magneto application in custom nRFToolbox.
+
+@RPR0521RS : Ambient light sensor and Proximity sensor - connect alsps application in custom nRFToolbox.
+
+@BH1749NUC : Color sensor - connect color application in custom nRFToolbox.
 
 @BH1790GLC : Heart Rate sensor - connect HRS application in anything nRFToolbox.
 
