@@ -38,13 +38,85 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "nrfx_twim.h"
 
 #include "sensors.h"
+#include "bm1422gmv_drv.h"
 #include "platform_functions.h"
-#include "RPR_0521RS.h"
-
-uint8_t blocking = false;
 
 /* TWI module instance in use */
 static const nrfx_twim_t m_twi = NRFX_TWIM_INSTANCE(0);
+
+/* application event handler implemented in the main module */
+extern void application_event_handler(void * p_event_data, uint16_t event_size);
+
+
+/* Interrupt handler for the sensor DRDY */
+static void nrf52_gpiote_event_handler(nrf_drv_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+{            
+    ret_code_t ret;
+    static app_internal_evt_t app_event =
+    {
+        .type = EVENT_READ_TWI,        
+    };
+
+    /* Set dedicated data read function to BM1422GMV.*/
+    if (BM1422GMV_ENABLED && pin == BM1422GMV_INT1_PIN) {
+        app_event.app_events.sensor_evt.sensor_read = BM1422GMV_get_raw;
+        app_event.app_events.sensor_evt.sensor_id = BM1422GMV_ID;
+    }
+
+    /* Send event to main thread */
+    ret = app_sched_event_put(&app_event,
+                                   sizeof(app_internal_evt_t),
+                                   application_event_handler);
+    if (ret != NRF_SUCCESS)
+    {
+        NRF_LOG_ERROR("Application event not scheduled!");
+    }
+}
+
+/**
+ * @brief Enable GPIO interrupt.*/
+uint8_t nrf52_enable_interrupt(uint8_t gpio, gpio_pin_polarity_t polarity, gpio_pin_pullup_t pull) 
+{
+
+    nrf_drv_gpiote_in_config_t *config;
+    ret_code_t ret;
+
+    /* initialize default configs. */
+    nrf_drv_gpiote_in_config_t config_hitolo = GPIOTE_CONFIG_IN_SENSE_HITOLO(true);
+    nrf_drv_gpiote_in_config_t config_lotohi = GPIOTE_CONFIG_IN_SENSE_LOTOHI(true);
+    
+    /* set pin polarity. */
+    if(polarity == GPIO_POLARITY_HITOLO) {
+        config = &config_hitolo;
+    } else if(polarity == GPIO_POLARITY_LOTOHI) {
+        config = &config_lotohi;
+    } else {        
+        return NRF_ERROR_INVALID_PARAM;
+    }
+    
+    /* set pull-up resistor. */
+    if(pull == GPIO_NOPULL) {
+        config->pull = NRF_GPIO_PIN_NOPULL;
+    } else if (pull == GPIO_PULLDOWN) {
+        config->pull = NRF_GPIO_PIN_PULLDOWN;
+    } else if (pull == GPIO_PULLUP) {
+        config->pull = NRF_GPIO_PIN_PULLUP;
+    } else {
+        return NRF_ERROR_INVALID_PARAM;
+    }
+
+    /* set ISR handler. */
+    ret = nrf_drv_gpiote_in_init(gpio,config,nrf52_gpiote_event_handler);
+    if(ret != NRF_SUCCESS) {
+        NRF_LOG_INFO("%s err=%d", __func__, ret);
+        return ret;
+    }
+
+    /* enable interrupt event. */
+    nrf_drv_gpiote_in_event_enable(gpio, true);
+
+    return NRF_SUCCESS;
+}
 
 /**
  * @brief GPIOTE initialization.*/

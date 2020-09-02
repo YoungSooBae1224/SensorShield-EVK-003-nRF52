@@ -35,15 +35,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /* Only one sensor should be enabled at a time. */
 
-#define RPR_0521RS_ENABLED        1
-#define RPR_0521RS_INT1           1
-#define RPR_0521RS_INT1_PIN       NRF_GPIO_PIN_MAP(0, 14)
+#define KX224_ENABLED             1
+#define KX224_INT1                1
+#define KX224_INT1_PIN            NRF_GPIO_PIN_MAP(0, 14)
 
 /**@brief Init sensor drivers.*/
 void sensors_init(struct platform_functions * p_functions);
-
-extern uint16_t _als_data0_gain;
-extern uint16_t _als_data1_gain;
-extern uint16_t _als_measure_time;
 
 #endif
