@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 - 2019, Nordic Semiconductor ASA
+ * Copyright (c) 2014 - 2020, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -140,6 +140,9 @@ BLE_HTS_DEF(m_hts);                                                             
 NRF_BLE_GATT_DEF(m_gatt);                                                           /**< GATT module instance. */
 NRF_BLE_QWR_DEF(m_qwr);                                                             /**< Context for the Queued Write module.*/
 BLE_ADVERTISING_DEF(m_advertising);                                                 /**< Advertising module instance. */
+NRF_BLE_GQ_DEF(m_ble_gatt_queue,                                                    /**< BLE GATT Queue instance. */
+               NRF_SDH_BLE_PERIPHERAL_LINK_COUNT,
+               NRF_BLE_GQ_QUEUE_SIZE);
 
 static uint16_t          m_conn_handle = BLE_CONN_HANDLE_INVALID;                   /**< Handle of the current connection. */
 static bool              m_hts_meas_ind_conf_pending = false;                       /**< Flag to keep track of when an indication confirmation is pending. */
@@ -183,6 +186,20 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 {
     app_error_handler(DEAD_BEEF, line_num, p_file_name);
 }
+
+
+/**@brief Function for handling Service errors.
+ *
+ * @details A pointer to this function will be passed to each service which may need to inform the
+ *          application about an error.
+ *
+ * @param[in] nrf_error  Error code containing information about what went wrong.
+ */
+static void service_error_handler(uint32_t nrf_error)
+{
+    APP_ERROR_HANDLER(nrf_error);
+}
+
 
 /**@brief Function for handling Peer Manager events.
  *
@@ -262,18 +279,18 @@ static void hts_sim_measurement(ble_hts_meas_t * p_meas)
 {
     static ble_date_time_t time_stamp = { 2012, 12, 5, 11, 50, 0 };
 
-    uint32_t celciusX100;
+    uint32_t bd1020hfv;
 
     p_meas->temp_in_fahr_units = false;
     p_meas->time_stamp_present = true;
     p_meas->temp_type_present  = (TEMP_TYPE_AS_CHARACTERISTIC ? false : true);
 
-    celciusX100 = m_temp;//sensorsim_measure(&m_temp_celcius_sim_state, &m_temp_celcius_sim_cfg);
+    bd1020hfv = m_temp;
 
     p_meas->temp_in_celcius.exponent = -2;
-    p_meas->temp_in_celcius.mantissa = celciusX100;
+    p_meas->temp_in_celcius.mantissa = bd1020hfv;
     p_meas->temp_in_fahr.exponent    = -2;
-    p_meas->temp_in_fahr.mantissa    = (32 * 100) + ((celciusX100 * 9) / 5);
+    p_meas->temp_in_fahr.mantissa    = (32 * 100) + ((bd1020hfv * 9) / 5);
     p_meas->time_stamp               = time_stamp;
     p_meas->temp_type                = BLE_HTS_TEMP_TYPE_FINGER;
 
@@ -449,6 +466,8 @@ static void services_init(void)
     memset(&hts_init, 0, sizeof(hts_init));
 
     hts_init.evt_handler                 = on_hts_evt;
+    hts_init.p_gatt_queue                = &m_ble_gatt_queue;
+    hts_init.error_handler               = service_error_handler;
     hts_init.temp_type_as_characteristic = TEMP_TYPE_AS_CHARACTERISTIC;
     hts_init.temp_type                   = BLE_HTS_TEMP_TYPE_BODY;
 
@@ -909,6 +928,7 @@ static void advertising_start(bool erase_bonds)
         APP_ERROR_CHECK(err_code);
     }
 }
+
 
 void timer_handler(nrf_timer_event_t event_type, void * p_context)
 {

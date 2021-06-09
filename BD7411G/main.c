@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 - 2018, Nordic Semiconductor ASA
+ * Copyright (c) 2009 - 2020, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -37,17 +37,20 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
- 
- 
+/** @file
+* @brief Example template project.
+* @defgroup nrf_templates_example Example Template
+*
+*/
+
+#include <stdbool.h>
 #include <stdint.h>
-#include <string.h>
-#include "nordic_common.h"
+
 #include "nrf.h"
+#include "nordic_common.h"
 #include "boards.h"
 #include "bsp.h"
 #include "app_timer.h"
-#include "app_uart.h"
-#include "app_util_platform.h"
 
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
@@ -55,12 +58,9 @@
 
 #include "nrf_gpio.h"
 #include "nrf_drv_clock.h"
-#include "nrf_delay.h"
 #include "nrf_drv_power.h"
 #include "nrf_drv_gpiote.h"
 #include "nrf_drv_timer.h"
-
-#include "ble_uart.h"
 
 /**@brief Function for initializing the nrf_log module.*/
 static void log_init(void)
@@ -70,6 +70,7 @@ static void log_init(void)
 
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 }
+
 
 /**@brief Initialize clock driver.*/
 void nrf52_clock_init(void) {
@@ -131,43 +132,26 @@ void nrf52_gpiote_init(void) {
 }
 
 /**
- * @brief Function for handling the idle state (main loop).
- *
- * @details If there is no pending log operation, then sleep until next the next event occurs.
+ * @brief Function for application main entry.
  */
-static void idle_state_handle(void)
-{
-    UNUSED_RETURN_VALUE(NRF_LOG_PROCESS());
-    power_manage();
-}
-
-/** @brief Application main function. */
 int main(void)
 {
     /*nRF logging is enabled.*/
-    log_init(); 
-    
+    log_init();
+
     /*Init platform peripherals*/
     nrf52_timers_init();
     nrf52_clock_init();
     nrf52_gpiote_init();
-    
+
     /*Init leds.*/
     buttons_leds_init();
     
-    /* Init BLE uart.
-     * The order of these calls is important to make sure that the power
-     * events are initialized correctly. */
-    ble_uart_init();
-
     nrf52_hall_sensor_init();
-    
+
     for (;;)
     {
-        idle_state_handle();
+        //do nothing
     }
 }
-
-/**
- * @}
- */
+/** @} */
