@@ -1,3 +1,5 @@
+2021/6/9 - Update 17.0.2
+
 *ROHM Sensor Shield
 
 - Applicable Part Number: SensorShield-EVK-003
@@ -34,7 +36,7 @@ Change VDD circuit on SensorShield-EVK-003
 
 
 - Other
-1. Download SDK15.3 in nordicsemi.com 
+1. Download SDK17.0.2 in nordicsemi.com 
 
     After updating all sensors, I plan to update in the next version.
 
@@ -42,7 +44,7 @@ Change VDD circuit on SensorShield-EVK-003
 
 2. Create a ROHM_EVK_003 folder and git pull it in the created folder.
 
-    location : SDK15_directory\examples\ROHM_EVK_003\
+    location : SDK17_directory\examples\ROHM_EVK_003\
 
 3. Lapis - MK71521EK1A
 
