@@ -10,8 +10,10 @@
 4. RPR0521RS-I2C
 5. BH1749NUC-I2C
 6. BH1790GLC-I2C
-7. BD7411G
-8. BD1020HFV
+7. KXTJ3_1057-I2C
+8. BM1390GLV-I2C
+9. BD7411G
+10. BD1020HFV
 
 
 - Bluetooth Low Energy Chip
@@ -58,7 +60,11 @@ Change VDD circuit on SensorShield-EVK-003
 
 @KX224-I2C : Accelerometer - connect accel application in custom nRFToolbox.
 
+@KXTJ3_1057-I2C : Accelerometer - connect accel application in custom nRFToolbox.
+
 @BM1383AGLV : Air Press sensor - connect press application in custom nRFToolbox. If want to connect iOS, you can test HRS in nRFToolbox.
+
+@BM1390GLV : Air Press sensor - connect press application in custom nRFToolbox. If want to connect iOS, you can test HRS in nRFToolbox.
 
 @BM1422AGMV : Magnetometer - connect magneto application in custom nRFToolbox.
 
